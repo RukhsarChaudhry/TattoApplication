@@ -25,34 +25,46 @@
       <div class="span12">
         <div class="headnav">
           <ul>
-            <li><a href="#mySignup" data-toggle="modal"><i class="icon-user"></i> Sign up</a></li>
-            <li><a href="#mySignin" data-toggle="modal">Sign in</a></li>
+            <li *ngIf="!authenticated"><a href="#mySignup" data-toggle="modal"><i class="icon-user"></i> Sign up</a></li>
+            <li *ngIf="!authenticated"><a href="#mySignin" data-toggle="modal">Sign in</a></li>
+            <li *ngIf="authenticated" (click)="signOut()"> <a href="#mySignup">Logout</a></li>
           </ul>
         </div>
         <!-- Signup Modal -->
-        <div style="display: none" id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">
+        <div style="display: none" id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel"
+          aria-hidden="true">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h4 id="mySignupModalLabel">Create an <strong>account</strong></h4>
           </div>
           <div class="modal-body">
-            <form class="form-horizontal">
+            <form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value,registerForm.valid)">
               <div class="control-group">
-                <label class="control-label" for="inputEmail">Email</label>
+                <label class="control-label" for="inputEmail"> First Name</label>
                 <div class="controls">
-                  <input type="text" id="inputEmail" placeholder="Email">
+                  <input type="text" class="form-control" formControlName="first_name" placeholder="First name">
+                  <small *ngIf="formErrors.first_name" class="text-danger">{{ formErrors.first_name }}</small>
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label" for="inputSignupPassword">Password</label>
+                <label class="control-label" for="inputSignupPassword">Last Name</label>
                 <div class="controls">
-                  <input type="password" id="inputSignupPassword" placeholder="Password">
+                  <input type="text" class="form-control" formControlName="last_name" placeholder="Last name">
+                  <small *ngIf="formErrors.last_name" class="text-danger">{{ formErrors.last_name }}</small>
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label" for="inputSignupPassword2">Confirm Password</label>
+                <label class="control-label" for="inputSignupPassword2">Email</label>
                 <div class="controls">
-                  <input type="password" id="inputSignupPassword2" placeholder="Password">
+                  <input type="text" class="form-control" formControlName="email" placeholder="Email">
+                  <small *ngIf="formErrors.email" class="text-danger">{{ formErrors.email }}</small>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputSignupPassword2">Password</label>
+                <div class="controls">
+                  <input type="password" class="form-control" formControlName="password" placeholder="Email">
+                  <small *ngIf="formErrors.password" class="text-danger">{{ formErrors.password }}</small>
                 </div>
               </div>
               <div class="control-group">
@@ -68,23 +80,26 @@
         </div>
         <!-- end signup modal -->
         <!-- Sign in Modal -->
-        <div  style="display: none" id="mySignin" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySigninModalLabel" aria-hidden="true">
+        <div style="display: none" id="mySignin" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySigninModalLabel"
+          aria-hidden="true">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h4 id="mySigninModalLabel">Login to your <strong>account</strong></h4>
           </div>
           <div class="modal-body">
-            <form class="form-horizontal">
+            <form class="form-horizontal" [formGroup]="signInForm" (ngSubmit)="signIn(signInForm.value,signInForm.valid)">
               <div class="control-group">
                 <label class="control-label" for="inputText">Username</label>
                 <div class="controls">
-                  <input type="text" id="inputText" placeholder="Username">
+                  <input type="text" class="form-control" formControlName="email" placeholder="Email">
+                  <small *ngIf="formErrors.email" class="text-danger">{{ formErrors.email }}</small>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label" for="inputSigninPassword">Password</label>
                 <div class="controls">
-                  <input type="password" id="inputSigninPassword" placeholder="Password">
+                  <input type="text" class="form-control" formControlName="password" placeholder="Email">
+                  <small *ngIf="formErrors.password" class="text-danger">{{ formErrors.password }}</small>
                 </div>
               </div>
               <div class="control-group">
@@ -100,17 +115,19 @@
         </div>
         <!-- end signin modal -->
         <!-- Reset Modal -->
-        <div  style="display: none" id="myReset" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="myResetModalLabel" aria-hidden="true">
+        <div style="display: none" id="myReset" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="myResetModalLabel"
+          aria-hidden="true">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h4 id="myResetModalLabel">Reset your <strong>password</strong></h4>
           </div>
           <div class="modal-body">
-            <form class="form-horizontal">
+            <form class="form-horizontal" [formGroup]="forgetPasswordForm" (ngSubmit)="resetPassword(forgetPasswordForm.value,forgetPasswordForm.valid)">
               <div class="control-group">
                 <label class="control-label" for="inputResetEmail">Email</label>
                 <div class="controls">
-                  <input type="text" id="inputResetEmail" placeholder="Email">
+                  <input type="text" class="form-control" formControlName="email" placeholder="Email">
+                  <small *ngIf="formErrors.email" class="text-danger">{{ formErrors.email }}</small>
                 </div>
               </div>
               <div class="control-group">
@@ -140,59 +157,26 @@
             <nav>
               <ul class="nav topnav">
                 <li class="dropdown active">
-                  <a href="index.html">Home <i class="icon-angle-down"></i></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="index-alt2.html">Homepage 2</a></li>
-                    <li><a href="index-alt3.html">Homepage 3</a></li>
-                  </ul>
+                  <a href="index.html">Home</a>
                 </li>
                 <li class="dropdown">
-                  <a href="#">Features <i class="icon-angle-down"></i></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="typography.html">Typography</a></li>
-                    <li><a href="table.html">Table</a></li>
-                    <li><a href="components.html">Components</a></li>
-                    <li><a href="animations.html">56 Animations</a></li>
-                    <li><a href="icons.html">Icons</a></li>
-                    <li><a href="icon-variations.html">Icon variations</a></li>
-                    <li class="dropdown"><a href="#">3 Sliders <i class="icon-angle-right"></i></a>
-                      <ul class="dropdown-menu sub-menu-level1">
-                        <li><a href="index.html">Nivo slider</a></li>
-                        <li><a href="index-alt2.html">Slit slider</a></li>
-                        <li><a href="index-alt3.html">Parallax slider</a></li>
-                      </ul>
-                    </li>
-                  </ul>
+                  <a routerLink="testimonial">Testimonials</a>
                 </li>
                 <li class="dropdown">
-                  <a href="#">Pages <i class="icon-angle-down"></i></a>
+                  <a routerLink="aboutus">About us </a>
+                </li>
+                <li class="dropdown" *ngIf="authenticated">
+                  <a>Tattos <i class="icon-angle-down"></i></a>
                   <ul class="dropdown-menu">
-                    <li><a routerLink="aboutus">About us</a></li>
-                    <li><a href="pricingbox.html">Pricing boxes</a></li>
-                    <li><a href="testimonials.html">Testimonials</a></li>
-                    <li><a href="404.html">404</a></li>
+                    <li><a routerLink="all-tattos">All Tattos</a></li>
+                    <li><a routerLink="create-tatto">Create Tattos</a></li>
                   </ul>
                 </li>
-                <li class="dropdown">
-                  <a href="#">Portfolio <i class="icon-angle-down"></i></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="portfolio-2cols.html">Portfolio 2 columns</a></li>
-                    <li><a href="portfolio-3cols.html">Portfolio 3 columns</a></li>
-                    <li><a href="portfolio-4cols.html">Portfolio 4 columns</a></li>
-                    <li><a href="portfolio-detail.html">Portfolio detail</a></li>
-                  </ul>
+                <li class="dropdown" *ngIf="!authenticated">
+                  <a routerLink="blog">Blog </a>
                 </li>
-                <li class="dropdown">
-                  <a href="#">Blog <i class="icon-angle-down"></i></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="blog-left-sidebar.html">Blog left sidebar</a></li>
-                    <li><a href="blog-right-sidebar.html">Blog right sidebar</a></li>
-                    <li><a href="post-left-sidebar.html">Post left sidebar</a></li>
-                    <li><a href="post-right-sidebar.html">Post right sidebar</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="contact.html">Contact </a>
+                <li *ngIf="!authenticated">
+                  <a routerLink="contact">Contact </a>
                 </li>
               </ul>
             </nav>

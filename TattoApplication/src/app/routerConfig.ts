@@ -1,11 +1,31 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './auth-guard';
+import { HomeRoutes } from './home/index';
+import { AboutUsRoutes } from './aboutus/index';
+import { ContactRoutes } from './contact/index';
+import { CreateTattoRoutes } from './create-tatto/index';
+import { AllTattosRoutes } from './all-tattos/index';
+import { TestimonialRoutes } from './testimonial/index';
+import { BlogRoutes } from './blog/index';
 
-import { HomeComponent } from './home/home.component';
-import { AboutusComponent } from './aboutus/aboutus.component';
 
+export const appRoutes: Routes = [
 
-export const appRoutes: Routes =[
-  { path: 'home', component: HomeComponent},
-  { path: 'aboutus', component: AboutusComponent},
-  {path: "**", component: HomeComponent}
+  ...HomeRoutes,
+  ...AboutUsRoutes,
+  ...ContactRoutes,
+  ...CreateTattoRoutes,
+  ...AllTattosRoutes,
+  ...TestimonialRoutes,
+  ...BlogRoutes,
+  {
+    path: '',
+    redirectTo: '',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
 ];
