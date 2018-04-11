@@ -5,98 +5,23 @@
         <h4 class="heading">All <strong>Tattos</strong></h4>
         <div class="row">
           <section id="projects">
-            <ul id="thumbs" class="portfolio">
+            <ul id="thumbs" class="portfolio" *ngFor="let url of url">
               <!-- Item Project and Filter Name -->
               <li class="item-thumbs span3 design" data-id="id-0" data-type="web">
                 <!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                <span class="overlay-img-thumb">
+                  <button (click)="getId(url[0].id)"  ><a href="#updateform" data-toggle="modal">Edit</a></button>
+              <button (click)="delete(url[0].id)">Delete</button>
+              </span>
                 <a class="hover-wrap fancybox" data-fancybox-group="gallery" href="./assets/img/works/full/image-01-full.jpg">
                 <span class="overlay-img"></span>
-                <span class="overlay-img-thumb" >
-                    <button   ><a href="#updateform" data-toggle="modal">Edit</a></button>
-                <button (click)="delete(1)"><a href="#" >Delete</a></button>
-                </span>
+              
                 </a>
                 <!-- Thumb Image and Description -->
-                <img src="./assets/img/works/thumbs/image-01.jpg">
+                <img src={{url[0].url}}>
               </li>
               <!-- End Item Project -->
-              <!-- Item Project and Filter Name -->
-              <li class="item-thumbs span3 design" data-id="id-1" data-type="icon">
-                <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The Office" href="./assets/img/works/full/image-02-full.jpg">
-                <span class="overlay-img"></span>
-                <span class="overlay-img-thumb font-icon-plus"></span>
-              </a>
-                <!-- Thumb Image and Description -->
-                <img src="./assets/img/works/thumbs/image-02.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-              </li>
-              <!-- End Item Project -->
-              <!-- Item Project and Filter Name -->
-              <li class="item-thumbs span3 photography" data-id="id-2" data-type="illustrator">
-                <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The Mountains" href="./assets/img/works/full/image-03-full.jpg">
-                <span class="overlay-img"></span>
-                <span class="overlay-img-thumb font-icon-plus"></span>
-              </a>
-                <!-- Thumb Image and Description -->
-                <img src="./assets/img/works/thumbs/image-03.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-              </li>
-              <!-- End Item Project -->
-              <!-- Item Project and Filter Name -->
-              <li class="item-thumbs span3 photography" data-id="id-2" data-type="illustrator">
-                <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The Mountains" href="./assets/img/works/full/image-04-full.jpg">
-                <span class="overlay-img"></span>
-                <span class="overlay-img-thumb font-icon-plus"></span>
-              </a>
-                <!-- Thumb Image and Description -->
-                <img src="./assets/img/works/thumbs/image-04.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-              </li>
-              <!-- End Item Project -->
-              <!-- Item Project and Filter Name -->
-              <li class="item-thumbs span3 photography" data-id="id-4" data-type="web">
-                <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The Sea" href="./assets/img/works/full/image-05-full.jpg">
-                <span class="overlay-img"></span>
-                <span class="overlay-img-thumb font-icon-plus"></span>
-              </a>
-                <!-- Thumb Image and Description -->
-                <img src="./assets/img/works/thumbs/image-05.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-              </li>
-              <!-- End Item Project -->
-              <!-- Item Project and Filter Name -->
-              <li class="item-thumbs span3 photography" data-id="id-5" data-type="icon">
-                <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Clouds" href="./assets/img/works/full/image-06-full.jpg">
-                <span class="overlay-img"></span>
-                <span class="overlay-img-thumb font-icon-plus"></span>
-              </a>
-                <!-- Thumb Image and Description -->
-                <img src="./assets/img/works/thumbs/image-06.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-              </li>
-              <!-- End Item Project -->
-              <!-- Item Project and Filter Name -->
-              <li class="item-thumbs span3 photography" data-id="id-2" data-type="illustrator">
-                <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The Mountains" href="./assets/img/works/full/image-07-full.jpg">
-                <span class="overlay-img"></span>
-                <span class="overlay-img-thumb font-icon-plus"></span>
-              </a>
-                <!-- Thumb Image and Description -->
-                <img src="./assets/img/works/thumbs/image-07.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-              </li>
-              <!-- End Item Project -->
-              <!-- Item Project and Filter Name -->
-              <li class="item-thumbs span3 design" data-id="id-0" data-type="web">
-                <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The Dark" href="./assets/img/works/full/image-08-full.jpg">
-                <span class="overlay-img"></span>
-                <span class="overlay-img-thumb font-icon-plus"></span>
-              </a>
-                <!-- Thumb Image and Description -->
-                <img src="./assets/img/works/thumbs/image-08.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-              </li>
-              <!-- End Item Project -->
+
             </ul>
           </section>
         </div>
@@ -175,20 +100,19 @@
         <div class="controls">
           <input type="text" class="form-control" formControlName="image_name" placeholder="image_name">
 
-          <small *ngIf="formErrors.image_name" class="text-danger">{{ formErrors.image_name }}</small>
+          <small *ngIf="formErrors.image_name" style="color:red; ">{{ formErrors.image_name }}</small>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="inputSigninPassword">Avatar</label>
         <div class="controls">
-          <input type="text" class="form-control" formControlName="avatar" placeholder="avatar">
-
-          <small *ngIf="formErrors.avatar" class="text-danger">{{ formErrors.avatar }}</small>
+          <input type="file" id="avatar" #avatar class="form-control" (change)="onFileChange($event)">
+          <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
         </div>
       </div>
       <div class="control-group">
         <div class="controls">
-          <button type="submit" class="btn">Update</button>
+          <button type="submit" [disabled]="!UpdateForm.valid" class="btn">Update</button>
         </div>
       </div>
     </form>

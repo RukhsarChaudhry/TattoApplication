@@ -4,8 +4,8 @@
     <div class="row">
       <div class="span12">
         <ul>
-          <li><strong>We are available for any custom works this month</strong></li>
-          <li>Main office: Springville center X264, Park Ave S.01</li>
+          <li><strong>We are available for your help</strong></li>
+          <li>Main office: Subhan mall near expo center</li>
           <li>Call us <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891</li>
         </ul>
       </div>
@@ -43,33 +43,40 @@
                 <label class="control-label" for="inputEmail"> First Name</label>
                 <div class="controls">
                   <input type="text" class="form-control" formControlName="first_name" placeholder="First name">
-                  <small *ngIf="formErrors.first_name" class="text-danger">{{ formErrors.first_name }}</small>
+                  <small *ngIf="submitted && formErrors.first_name" style="color:red; margin-left: 37%;">{{ formErrors.first_name }}</small>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label" for="inputSignupPassword">Last Name</label>
                 <div class="controls">
                   <input type="text" class="form-control" formControlName="last_name" placeholder="Last name">
-                  <small *ngIf="formErrors.last_name" class="text-danger">{{ formErrors.last_name }}</small>
+                  <small *ngIf="submitted && formErrors.last_name" style="color:red; margin-left: 37%;">{{ formErrors.last_name }}</small>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="inputSignupPassword">User Name</label>
+                <div class="controls">
+                  <input type="text" class="form-control" formControlName="username" placeholder="username">
+                  <small *ngIf="submitted && formErrors.username" style="color:red; margin-left: 37%;">{{ formErrors.username }}</small>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label" for="inputSignupPassword2">Email</label>
                 <div class="controls">
                   <input type="text" class="form-control" formControlName="email" placeholder="Email">
-                  <small *ngIf="formErrors.email" class="text-danger">{{ formErrors.email }}</small>
+                  <small *ngIf="submitted && formErrors.email" style="color:red; margin-left: 37%;">{{ formErrors.email }}</small>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label" for="inputSignupPassword2">Password</label>
                 <div class="controls">
                   <input type="password" class="form-control" formControlName="password" placeholder="Email">
-                  <small *ngIf="formErrors.password" class="text-danger">{{ formErrors.password }}</small>
+                  <small *ngIf="submitted && formErrors.password" style="color:red; margin-left: 37%;">{{ formErrors.password }}</small>
                 </div>
               </div>
               <div class="control-group">
                 <div class="controls">
-                  <button type="submit" class="btn">Sign up</button>
+                  <button type="submit" [disabled]="!registerForm.valid" class="btn">Sign up</button>
                 </div>
                 <p class="aligncenter margintop20">
                   Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a>
@@ -92,19 +99,19 @@
                 <label class="control-label" for="inputText">Username</label>
                 <div class="controls">
                   <input type="text" class="form-control" formControlName="email" placeholder="Email">
-                  <small *ngIf="formErrors.email" class="text-danger">{{ formErrors.email }}</small>
+                  <small *ngIf="submitted && formErrors.email" style="color:red; margin-left: 37%;">{{ formErrors.email }}</small>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label" for="inputSigninPassword">Password</label>
                 <div class="controls">
-                  <input type="text" class="form-control" formControlName="password" placeholder="Email">
-                  <small *ngIf="formErrors.password" class="text-danger">{{ formErrors.password }}</small>
+                  <input type="password" class="form-control" formControlName="password" placeholder="password">
+                  <small *ngIf="submitted && formErrors.password" style="color:red; margin-left: 37%;">{{ formErrors.password }}</small>
                 </div>
               </div>
               <div class="control-group">
                 <div class="controls">
-                  <button type="submit" class="btn">Sign in</button>
+                  <button type="submit" [disabled]="!signInForm.valid" class="btn">Sign in</button>
                 </div>
                 <p class="aligncenter margintop20">
                   Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a>
@@ -127,12 +134,12 @@
                 <label class="control-label" for="inputResetEmail">Email</label>
                 <div class="controls">
                   <input type="text" class="form-control" formControlName="email" placeholder="Email">
-                  <small *ngIf="formErrors.email" class="text-danger">{{ formErrors.email }}</small>
+                  <small *ngIf="submitted &&  formErrors.email" style="color:red; margin-left: 37%;">{{ formErrors.email }}</small>
                 </div>
               </div>
               <div class="control-group">
                 <div class="controls">
-                  <button type="submit" class="btn">Reset password</button>
+                  <button type="submit" [disabled]="!forgetPasswordForm.valid" class="btn">Reset password</button>
                 </div>
                 <p class="aligncenter margintop20">
                   We will send instructions on how to reset your password to your inbox
@@ -147,8 +154,7 @@
     <div class="row">
       <div class="span4">
         <div class="logo">
-          <a href="index.html"><img src="./assets/img/logo.png" alt="" class="logo" /></a>
-          <h1>Flat and trendy bootstrap template</h1>
+          <a href="index.html"><img  src="./assets/imgs/logo.png" alt="" class="logo" /></a>
         </div>
       </div>
       <div class="span8">

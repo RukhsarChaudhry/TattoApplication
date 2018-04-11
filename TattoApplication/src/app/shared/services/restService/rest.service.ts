@@ -42,7 +42,6 @@ export class RESTConnectorService {
 
     httpPostWeb(obj: any, url: any, contentType: string = 'application/json') {
         url = this.Url + url;
-        console.log(obj);
         let body = (contentType == 'application/json') ? JSON.stringify(obj) : obj;
         let headers = new Headers();
         headers.append("Content-Type", contentType);
@@ -55,7 +54,6 @@ export class RESTConnectorService {
     httpPostSecureWeb(obj: any, url: any, contentType: string = 'application/json') {
         url = this.Url + url;
         let body = obj;
-        console.log(body);
         return this.http.post(url, body)
             .map((data => {
                 return data.json();
@@ -63,13 +61,9 @@ export class RESTConnectorService {
     }
     httpPutWeb(obj: any, url: any, contentType: string = 'application/json') {
         url = this.Url + url;
-        let body = (contentType == 'application/json') ? JSON.stringify(obj) : obj;
-        let headers = new Headers();
-        headers.append("Content-Type", contentType);
-        let options = new RequestOptions({ headers: headers });
-        return this.http.put(url, body, options)
+        let body =  obj;
+        return this.http.patch(url, body)
             .map((data => {
-                console.log(data);
                 return data.json();
             }))._catch(res => res.json);
     }
@@ -81,13 +75,9 @@ export class RESTConnectorService {
             }))._catch(res => res.json);
 
     }
-    httpDeleteSecureWeb(url: any, obj: any, contentType: string = 'application/json') {
+    httpDeleteSecureWeb(url: any,  contentType: string = 'application/json') {
         url = this.Url + url;
-        let body = obj;
-        let headers = new Headers();
-        headers.append("token", localStorage.getItem('currentUser'));
-        let options = new RequestOptions({ headers: headers });
-        return this.http.delete(url, body)
+        return this.http.delete(url)
             .map((data => {
                 return data.json();
             }))._catch(res => res.json);

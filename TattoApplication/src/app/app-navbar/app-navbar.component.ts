@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from './../shared/services/userService/index';
@@ -13,7 +13,7 @@ import { HomeComponent } from './../home/home.component';
 })
 export class AppNavbarComponent implements OnInit {
   @ViewChild(HomeComponent) home: HomeComponent;
-  submitted = false;
+  submitted: any = false;
   registerForm: FormGroup;
   authenticated: boolean = false;
   signInForm: FormGroup;
@@ -24,10 +24,10 @@ export class AppNavbarComponent implements OnInit {
     public userService: UserService,
     public authService: AuthTokenService,
     public route: Router) {
-      // this.home.Authenticated();
-    if (JSON.parse(localStorage.getItem('status')) == true) {
-      this.authenticated = true;
-    }
+    this.authService.userEvent$.subscribe(data => {
+      this.authenticated = data;
+    })
+    this.authenticated = JSON.parse(localStorage.getItem('status'));
     this.signin();
     this.register();
     this.fogetPassword();
@@ -37,18 +37,22 @@ export class AppNavbarComponent implements OnInit {
   }
   signOut() {
     this.authService.logout();
-    this.route.navigate(['/']);
     this.authenticated = JSON.parse(localStorage.getItem('status'));
+    this.authService.userEvent$.subscribe(data => {
+      this.authenticated = data;
+    })
   }
   formErrors = {
     'first_name': '',
     'last_name': '',
+    'username': '',
     'email': '',
     'password': ''
   }
   validationMessages = {
     'first_name': { 'required': 'Field is required.', },
     'last_name': { 'required': 'Field is required.', },
+    'username': { 'required': 'Field is required.', },
     'email': { 'required': 'Field is required.', },
     'password': { 'required': 'Field is required.', }
   }
@@ -57,6 +61,7 @@ export class AppNavbarComponent implements OnInit {
     this.registerForm = this.fb.group({
       first_name: [, [<any>Validators.required]],
       last_name: [, [<any>Validators.required]],
+      username: [, [<any>Validators.required]],
       email: [, [<any>Validators.required]],
       password: [, [<any>Validators.required]]
     })
@@ -68,14 +73,35 @@ export class AppNavbarComponent implements OnInit {
       email: [, [<any>Validators.required]],
       password: [, [<any>Validators.required]]
     })
-
+    this.signInForm.valueChanges.subscribe(data => this.onValueChanged());
   }
   fogetPassword() {
     this.submitted = false;
     this.forgetPasswordForm = this.fb.group({
       email: [, [<any>Validators.required]]
     })
+    this.forgetPasswordForm.valueChanges.subscribe(data => this.onValueChange());
+  }
+  onValueChange() {
+    //console.log(this.resForm);
+    if (!this.forgetPasswordForm) { return; }
+    const form = this.forgetPasswordForm;
 
+    for (const field in this.formErrors) {
+      // clear previous error message (if any)
+      this.formErrors[field] = '';
+      const control = form.get(field);
+
+      if (control && (control.dirty || this.submitted) && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          if (this.formErrors[field].length < 1) {
+
+            this.formErrors[field] += messages[key];
+          }
+        }
+      }
+    }
   }
   onValueChanges() {
     //console.log(this.resForm);
@@ -98,31 +124,59 @@ export class AppNavbarComponent implements OnInit {
       }
     }
   }
+  onValueChanged() {
+    console.log(this.signInForm);
+    if (!this.signInForm) { return; }
+    const form = this.signInForm;
+
+    for (const field in this.formErrors) {
+      // clear previous error message (if any)
+      this.formErrors[field] = '';
+      const control = form.get(field);
+
+      if (control && (control.dirty || this.submitted) && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          if (this.formErrors[field].length < 1) {
+
+            this.formErrors[field] += messages[key];
+          }
+        }
+      }
+    }
+  }
 
   registerUser(value: any, valid: boolean) {
-    console.log(value);
     this.submitted = true;
     if (valid == false) {
       return;
     }
-    this.userService.RegisterUser(value).subscribe(data => {
-      console.log(data);
-    })
+    this.authService.RegisterUser(value).subscribe(data => {
+      this.register();
+      this.authenticated = JSON.parse(localStorage.getItem('status'));
+      this.authService.userEvent$.subscribe(data => {
+        this.authenticated = data;
+      });
+    },
+      Error => {
+        console.log("Something went wrong");
+      })
 
   }
   resetPassword(value: any, valid: boolean) {
-    console.log(value);
     this.submitted = true;
     if (valid == false) {
       return;
     }
     this.userService.ResetPassword(value).subscribe(data => {
-      console.log(data);
-    })
+      this.fogetPassword();
+    },
+      Error => {
+        console.log("Something went wrong");
+      })
 
   }
   signIn(value: any, valid: boolean) {
-    console.log(value);
     this.submitted = true;
     if (valid == false) {
       return;
@@ -131,9 +185,15 @@ export class AppNavbarComponent implements OnInit {
     credential.email = value.email;
     credential.password = value.password;
     this.authService.signIn(credential).subscribe(data => {
-      this.route.navigate(['/']);
+      this.signin();
       this.authenticated = JSON.parse(localStorage.getItem('status'));
-    })
+      this.authService.userEvent$.subscribe(data => {
+        this.authenticated = data;
+      });
+    },
+      Error => {
+        console.log("Something went wrong");
+      })
   }
 
 

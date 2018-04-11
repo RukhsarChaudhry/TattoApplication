@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TattoService } from './../shared/services/tattoService/index';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -8,6 +8,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./create-tatto.component.css']
 })
 export class CreateTattoComponent implements OnInit {
+  private base64textString: String = "";
+  @ViewChild('fileInput') fileInput: ElementRef;
   submitted = false;
   TattoForm: FormGroup;
   UpdateForm: FormGroup;
@@ -48,8 +50,8 @@ export class CreateTattoComponent implements OnInit {
       category: [, [<any>Validators.required]],
       color: [, [<any>Validators.required]],
       description: [, [<any>Validators.required]],
-      image_name: [, [<any>Validators.required]],
-      avatar: [, [<any>Validators.required]]
+      image_name: [, [<any>Validators.required]]
+      // avatar: [, [<any>Validators.required]]
     })
     this.TattoForm.valueChanges.subscribe(data => this.onValueChanges());
   }
@@ -74,14 +76,34 @@ export class CreateTattoComponent implements OnInit {
       }
     }
   }
+  onFileChange(event) {
+    var files = event.target.files;
+    var file = files[0];
+    if (files && file) {
+      let reader = new FileReader();
+      reader.onload = this._handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(file);
+    }
+  }
 
+  _handleReaderLoaded(readerEvt) {
+    var binaryString = readerEvt.target.result;
+    this.base64textString = btoa(binaryString);
+  }
+  clearFile() {
+    this.TattoForm.get('avatar').setValue(null);
+    this.fileInput.nativeElement.value = '';
+  }
   createTatto(value: any, valid: boolean) {
+    value.avatar = this.base64textString;
     console.log(value);
+    console.log(valid);
     this.submitted = true;
     if (valid == false) {
       return;
     }
     this.tattoService.createTatto(value).subscribe(data => {
+      this.createTattoForm();
       console.log(data);
     });
   }

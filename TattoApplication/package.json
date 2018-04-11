@@ -23,7 +23,9 @@
     "@angular/router": "^5.2.9",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.19",
+    "ui-carousel": "^0.2.0",
+    "angular2-toaster": "^5.0.1"
   },
   "devDependencies": {
     "@angular/cli": "1.6.5",
